@@ -1,0 +1,11 @@
+.header{
+    backgroud:white;
+    padding: 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.logo{
+    font-size: 24px;
+    font-weight: bold;
+}
