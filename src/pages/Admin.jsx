@@ -1,165 +1,131 @@
-
-
 import { useState } from "react";
+import "../styles/Admin.css";
 
 function Admin({ produtos, setProdutos }) {
-  const SENHA_ADMIN = "1234";
-
-  const [logado, setLogado] = useState(false);
-  const [senha, setSenha] = useState("");
-
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState("");
   const [imagem, setImagem] = useState("");
+  const [categoria, setCategoria] = useState("Masculino");
   const [editandoId, setEditandoId] = useState(null);
 
-  function entrar() {
-    if (senha === SENHA_ADMIN) {
-      setLogado(true);
-      setSenha("");
-    } else {
-      alert("Senha incorreta");
-    }
-  }
-
-  function salvarProduto() {
-    if (!nome || !preco || !imagem) {
-      alert("Preencha todos os campos");
-      return;
-    }
-
-    if (editandoId) {
-      // ✏️ EDITAR
-      const produtosAtualizados = produtos.map((p) =>
-        p.id === editandoId
-          ? { ...p, nome, preco, imagem }
-          : p
-      );
-
-      setProdutos(produtosAtualizados);
-      setEditandoId(null);
-    } else {
-      // ➕ CADASTRAR
-      setProdutos([
-        ...produtos,
-        {
-          id: Date.now(),
-          nome,
-          preco,
-          imagem
-        }
-      ]);
-    }
-
+  function limparFormulario() {
     setNome("");
     setPreco("");
     setImagem("");
+    setCategoria("Masculino");
+    setEditandoId(null);
+  }
+
+  function salvarProduto(e) {
+    e.preventDefault();
+
+    if (editandoId) {
+      // EDITAR
+      const produtosAtualizados = produtos.map((p) =>
+        p.id === editandoId
+          ? { ...p, nome, preco, imagem, categoria }
+          : p
+      );
+      setProdutos(produtosAtualizados);
+    } else {
+      // CADASTRAR
+      const novoProduto = {
+        id: Date.now(),
+        nome,
+        preco,
+        imagem,
+        categoria,
+      };
+      setProdutos([...produtos, novoProduto]);
+    }
+
+    limparFormulario();
   }
 
   function editarProduto(produto) {
     setNome(produto.nome);
     setPreco(produto.preco);
     setImagem(produto.imagem);
+    setCategoria(produto.categoria);
     setEditandoId(produto.id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function excluirProduto(id) {
-    if (confirm("Tem certeza que deseja excluir?")) {
-      setProdutos(produtos.filter((p) => p.id !== id));
-    }
+    if (!window.confirm("Deseja excluir este produto?")) return;
+    setProdutos(produtos.filter((p) => p.id !== id));
   }
 
-  // 🔐 LOGIN
-  if (!logado) {
-    return (
-      <div className="formulario">
-        <h2>Área Administrativa</h2>
+  return (
+    <div className="admin">
+      <h2>Painel Administrativo</h2>
 
+      <form className="admin-form" onSubmit={salvarProduto}>
         <input
-          type="password"
-          placeholder="Digite a senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          placeholder="Nome do produto"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
         />
 
-        <button onClick={entrar}>Entrar</button>
-      </div>
-    );
-  }
+        <input
+          placeholder="Preço (ex: 299.90)"
+          value={preco}
+          onChange={(e) => setPreco(e.target.value)}
+          required
+        />
 
-  // ✅ ADMIN
-  return (
+        <input
+          placeholder="URL da imagem"
+          value={imagem}
+          onChange={(e) => setImagem(e.target.value)}
+          required
+        />
 
-    <div className="formulario">
-      <h2>{editandoId ? "Editar Produto" : "Cadastrar Produto"}</h2>
-
-      <input
-        placeholder="Nome do produto"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-
-      <input
-        placeholder="Preço"
-        value={preco}
-        onChange={(e) => setPreco(e.target.value)}
-      />
-
-      <input
-        placeholder="URL da imagem"
-        value={imagem}
-        onChange={(e) => setImagem(e.target.value)}
-      />
-
-      <button onClick={salvarProduto}>
-        {editandoId ? "Salvar Alterações" : "Cadastrar Produto"}
-      </button>
-
-      <hr style={{ margin: "20px 0" }} />
-
-      {produtos.map((produto) => (
-        <div
-          key={produto.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "10px",
-            gap: "10px"
-          }}
+        <select
+          value={categoria}
+          onChange={(e) => setCategoria(e.target.value)}
         >
-         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-      <img
-        src={produto.imagem}
-        alt={produto.nome}
-        style={{
-          width: "50px",
-          height: "50px",
-          objectFit: "contain",
-          background: "#f3f3f3",
-          borderRadius: "6px"
-        }}
-      />
-      <span>{produto.nome}</span>
-    </div>
+          <option>Masculino</option>
+          <option>Feminino</option>
+          <option>Infantil</option>
+          <option>Acessórios</option>
+        </select>
 
+        <button type="submit">
+          {editandoId ? "Salvar Alterações" : "Cadastrar Produto"}
+        </button>
 
+        {editandoId && (
+          <button
+            type="button"
+            className="cancelar"
+            onClick={limparFormulario}
+          >
+            Cancelar edição
+          </button>
+        )}
+      </form>
 
-          <div>
-            <button onClick={() => editarProduto(produto)}>
-              ✏️
-            </button>
+      <div className="admin-lista">
+        {produtos.map((produto) => (
+          <div key={produto.id} className="admin-item">
+            <img src={produto.imagem} alt={produto.nome} />
 
-            <button onClick={() => excluirProduto(produto.id)}>
-              🗑
-            </button>
+            <div className="admin-info">
+              <strong>{produto.nome}</strong>
+              <span>R$ {Number(produto.preco).toFixed(2)}</span>
+              <small>{produto.categoria}</small>
+            </div>
+
+            <div className="admin-acoes">
+              <button onClick={() => editarProduto(produto)}>✏️</button>
+              <button onClick={() => excluirProduto(produto.id)}>🗑</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-
-
-
   );
 }
 

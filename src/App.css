@@ -8,12 +8,12 @@
 
 /* TOPO */
 .topo {
-  background: #111;
+  background: #0f172a;
   color: white;
-  padding: 15px 30px;
+  padding: 15px 0px;
   width:100%;
   padding: 15px 0 ;
-
+  height: 70px;
 }
 
 .topo a {
@@ -26,26 +26,42 @@
   opacity: 0.7;
 }
 .topo nav a {
-  color: white;
+  color: #cbd5e1;
   text-decoration: none;
   font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+.topo nav{
+  display: flex;
+  gap: 24px;
+}
+.topo nav a:hover{
+  opacity: o.8;
+  color: #38bdf8;
 }
 .topo-container {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
   padding: 0px 20px;
+
   display: flex;
-  justify-content:center;
+  justify-content: space-between;
   align-items: center;
 }
+nav{
+  display: flex;
+  gap: 24px;
+}
+
 
 .logo {
   margin:10px;
-  font-weight: bold;
-  font-size:22px;
+  font-weight: 700;
+  font-size:26px;
   letter-spacing: 1px;
   font-size: 18px;
-  color: #fff;
+  color: #ffffff;
 }
 
 /* LISTA DE PRODUTOS */
@@ -183,4 +199,46 @@
     grid-template-columns: 1fr;
   }
 
+}
+.topo{
+  background: linear-gradient(90deg, #111, #1f2933);
+  border-bottom: 1px solid #222;
+}
+
+.topo-container{
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-contain: space-between;
+  align-items: center;
+}
+
+.logo{
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.menu a{
+  text-decoration: none;
+  color: #d1d5db;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: 0,3s;
+  margin-left: 20px;
+}
+
+menu a:hover {
+  opacity: 0.7;
+  border-bottom: 2px solid white;
+  color: #ffffff;
+}
+ 
+@media (max-width: 600px){
+  .logo{
+    font-size: 20px;
+  }
 }

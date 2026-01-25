@@ -4,31 +4,31 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <h3>Tênis Store</h3>
+        <h3>NextStep</h3>
 
-        <p>
-          📱 WhatsApp:{" "}
+        <p>Moda urbana, tênis e acessórios</p>
+
+        <div className="footer-links">
           <a
-            href="https://wa.me/5537999999999"
+            href="https://wa.me/5537991241329"
             target="_blank"
             rel="noreferrer"
           >
-            (37) 99999-9999
+            WhatsApp
           </a>
-        </p>
 
-        <p>
-          📸 Instagram:{" "}
           <a
-            href="https://instagram.com/tenisstore"
+            href="https://instagram.com"
             target="_blank"
             rel="noreferrer"
           >
-            @tenisstore
+            Instagram
           </a>
-        </p>
+        </div>
 
-        <span>© 2026 — Todos os direitos reservados</span>
+        <small>
+          © {new Date().getFullYear()} NextStep. Todos os direitos reservados.
+        </small>
       </div>
     </footer>
   );

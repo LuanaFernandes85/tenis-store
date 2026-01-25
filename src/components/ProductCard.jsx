@@ -1,20 +1,30 @@
 import "./ProductCard.css"
 
-export default function ProductCard({ tenis }) {
+function ProdutoCard({ produto }) {
   return (
-    <div className="card">
-      <img src={tenis.imagem} alt={tenis.nome} />
-      <h3>{tenis.nome}</h3>
-      <p className="preco">R$ {tenis.preco}</p>
+    <div className="produto-card">
+      <div className="produto-img">
+        <img src={produto.imagem} alt={produto.nome} />
+      </div>
 
-      <a
-        href={`https://wa.me/5599999999999?text=Olá, tenho interesse no tênis ${tenis.nome}`}
-        target="_blank"
-        rel="noreferrer"
-        className="btn"
-      >
-        Comprar no WhatsApp
-      </a>
+      <div className="produto-info">
+        <h3>{produto.nome}</h3>
+
+        <p className="preco">
+          R$ {Number(produto.preco).toFixed(2)}
+        </p>
+
+        <a
+          className="btn-whatsapp"
+          href={`https://wa.me/5537991241329?text=Olá, tenho interesse no produto ${produto.nome}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Comprar no WhatsApp
+        </a>
+      </div>
     </div>
-  )
+  );
 }
+
+export default ProdutoCard;
