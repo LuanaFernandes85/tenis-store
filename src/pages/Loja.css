@@ -13,8 +13,8 @@
 
 .subtitulo {
   text-align: center;
-  color: #666;
-  font-size: 14px;
+  color: #6b7280;
+  font-size: 15px;
   margin-bottom: 24px;
 }
 
@@ -30,14 +30,8 @@
   color: #999;
 }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-}
+
+
 
 .img-box {
   width: 100%;
@@ -53,23 +47,55 @@
   object-fit: contain;
 }
 
-.card h3 {
-  font-size: 15px;
-  margin: 10px 0 4px;
-}
+
 
 .preco {
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-.btn-whatsapp {
-  margin-top: auto;
-  text-align: center;
-  background: #25d366;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 500;
+/*
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
+
+/* ÁREA DA IMAGEM 
+.card-img {
+  width: 100%;
+  height: 180px;            
+  object-fit: contain;       
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* TEXTO
+.card h3 {
+  font-size: 15px;
+  text-align: center;
+}
+
+.card span {
+  font-weight: bold;
+  color: #16a34a;
+}
+
+/* BOTÃO WHATSAPP 
+.card a {
+  margin-top: auto;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
+*/

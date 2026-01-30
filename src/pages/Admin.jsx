@@ -1,12 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Admin.css";
 
+const SENHA_ADMIN = "1234";
+
 function Admin({ produtos, setProdutos }) {
+  const [senha, setSenha] = useState("");
+  const [logado, setLogado] = useState(false);
+
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState("");
   const [imagem, setImagem] = useState("");
   const [categoria, setCategoria] = useState("Masculino");
   const [editandoId, setEditandoId] = useState(null);
+
+  const totalProdutos = produtos.length;
+    const categorias = produtos.reduce((acc, produto) => {
+  acc[produto.categoria] = (acc[produto.categoria] || 0) + 1;
+  return acc;
+}, {});
+
+const precoMedio =
+  totalProdutos === 0
+    ? 0
+    : (
+        produtos.reduce((soma, p) => soma + Number(p.preco), 0) /
+        totalProdutos
+      ).toFixed(2);
+
 
   function limparFormulario() {
     setNome("");
@@ -56,9 +76,55 @@ function Admin({ produtos, setProdutos }) {
     setProdutos(produtos.filter((p) => p.id !== id));
   }
 
+if (!logado) {
+    return (
+      <div className="admin-login">
+        <h2>Área Administrativa</h2>
+
+        <input
+          type="password"
+          placeholder="Digite a senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
+
+        <button
+          onClick={() => {
+            if (senha === SENHA_ADMIN) {
+              setLogado(true);
+            } else {
+              alert("Senha incorreta");
+            }
+          }}
+        >
+          Entrar
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="admin">
       <h2>Painel Administrativo</h2>
+
+      <div className="admin-dashboard">
+  <div className="dash-card">
+    <span>Total de Produtos</span>
+    <strong>{totalProdutos}</strong>
+  </div>
+
+  <div className="dash-card">
+    <span>Preço Médio</span>
+    <strong>R$ {precoMedio}</strong>
+  </div>
+
+  {Object.keys(categorias).map((cat) => (
+    <div className="dash-card" key={cat}>
+      <span>{cat}</span>
+      <strong>{categorias[cat]}</strong>
+    </div>
+  ))}
+</div>
 
       <form className="admin-form" onSubmit={salvarProduto}>
         <input
@@ -76,11 +142,17 @@ function Admin({ produtos, setProdutos }) {
         />
 
         <input
-          placeholder="URL da imagem"
-          value={imagem}
-          onChange={(e) => setImagem(e.target.value)}
-          required
-        />
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setImagem(imageURL);
+    }
+  }}
+  required
+/>
 
         <select
           value={categoria}
@@ -122,8 +194,11 @@ function Admin({ produtos, setProdutos }) {
               <button onClick={() => editarProduto(produto)}>✏️</button>
               <button onClick={() => excluirProduto(produto.id)}>🗑</button>
             </div>
-          </div>
-        ))}
+            
+            </div>
+           
+       
+ ))}
       </div>
     </div>
   );

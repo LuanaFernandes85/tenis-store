@@ -1,244 +1,93 @@
-/* RESET */
-* {
-  margin: 0;
+ *{margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  
 }
-
+body {
+  width: 100%;
+  height: 100%;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
 /* TOPO */
 .topo {
-  background: #0f172a;
-  color: white;
-  padding: 15px 0px;
-  width:100%;
-  padding: 15px 0 ;
+  background: linear-gradient(90deg, #0f172a, #020617);
+  border-bottom: 1px solid #1e293b;
   height: 70px;
+  display: flex;
+  align-items: center;
 }
 
-.topo a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
- 
-}
-.topo a:hover {
-  opacity: 0.7;
-}
-.topo nav a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 16px;
-  transition: color 0.3s;
-}
-.topo nav{
-  display: flex;
-  gap: 24px;
-}
-.topo nav a:hover{
-  opacity: o.8;
-  color: #38bdf8;
-}
 .topo-container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0px 20px;
+  margin: auto;
+  padding: 18px 20px; /* ✅ corrigido */
+  height: 100%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-nav{
-  display: flex;
-  gap: 24px;
-}
-
 
 .logo {
-  margin:10px;
-  font-weight: 700;
-  font-size:26px;
-  letter-spacing: 1px;
-  font-size: 18px;
+  font-size: 26px;
+  font-weight: 800;
   color: #ffffff;
+  letter-spacing: 1px;
+  line-height: 1;
 }
 
-/* LISTA DE PRODUTOS */
-.lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 30px;
+.topo nav {
+  display: flex;
+  gap: 25px;
 }
 
-/* CARD DO PRODUTO */
-.card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* IMAGEM */
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain; /* não corta */
-  background: #f3f3f3;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* TEXTO */
-.card h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.card span {
-  font-weight: bold;
-  color: #2e7d32;
-  display: block;
-  margin-bottom: 10px;
-}
-
-/* BOTÃO */
-.card a {
-  background: #25d366;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
+.topo nav a {
+  color: #e5e7eb;
   text-decoration: none;
-  display: block;
+  font-weight: 500;
+  font-size: 15px;
+  position: relative; /* ✅ ESSENCIAL */
+  padding-bottom: 4px;
+  transition: color 0.3s;
 }
 
-/* ADMIN */
-.formulario {
-  max-width: 400px;
-  margin: 40px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.topo nav a:hover {
+  color: #38bdf8;
 }
 
-.formulario h2 {
-  margin-bottom: 15px;
-  text-align: center;
+/* LINHA ANIMADA */
+.topo nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #38bdf8;
+  transition: width 0.3s;
 }
 
-.formulario input {
+.topo nav a:hover::after {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
 }
 
-.formulario button {
-  width: 100%;
-  padding: 10px;
-  background: #111;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 22px;
+  }
 }
 
-/*RESPONSIL*/
-
-@media (max-width: 768px){
-
-    .topo{
-      padding: 12px 20px;
-      justify-content: center;
-    }
-
-   .lista{
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 20px;
-   }
-
-   .card{
-    padding: 12px;
-   }
-
-   .card img{
-    height: 150px;
-   }
-
-   .card h3{
-    font-size: 14px;
-   }
-
-   .card span{
-    font-size: 14px;
-   }
-
-   .card a {
-    padding: 12px;
-    font-size: 14px;
-   }
-
-   /* ADMIN */
-    .formulario{
-      margin: 20px;
-      padding: 20px;
-    }
-
-    
-/* CELULARES MUITO PEQUENOS */
-@media (max-width: 480px) {
-  .lista {
-    grid-template-columns: 1fr;
+@media (max-width: 600px) {
+  .logo {
+    font-size: 20px;
   }
 
-}
-.topo{
-  background: linear-gradient(90deg, #111, #1f2933);
-  border-bottom: 1px solid #222;
-}
-
-.topo-container{
-  max-width: 1200px;
-  margin: auto;
-  padding: 10px 20px;
-  display: flex;
-  justify-contain: space-between;
-  align-items: center;
-}
-
-.logo{
-  font-size: 26px;
-  font-weight: bold;
-  color: #ffffff;
-  letter-spacing: 1px;
-}
-
-.menu a{
-  text-decoration: none;
-  color: #d1d5db;
-  font-weight: 500;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
-  transition: 0,3s;
-  margin-left: 20px;
-}
-
-menu a:hover {
-  opacity: 0.7;
-  border-bottom: 2px solid white;
-  color: #ffffff;
-}
- 
-@media (max-width: 600px){
-  .logo{
-    font-size: 20px;
+  .topo nav {
+    gap: 16px;
   }
 }

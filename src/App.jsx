@@ -3,11 +3,10 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import Footer from "./components/Footer";
 import Sobre from "./pages/Sobre";
-
 import Loja from "./pages/Loja";
 import Admin from "./pages/Admin";
-import "./App.css";
 
+import "./App.css";
 
 function App() {
   const [produtos, setProdutos] = useState(() => {
@@ -21,29 +20,30 @@ function App() {
 
   return (
     <BrowserRouter>
+      {/* TOPO */}
       <header className="topo">
         <div className="topo-container">
           <span className="logo">NextStep</span>
 
-          <nav className="menu">
-            <Link to="/">Inicio</Link>
+          {/* NÃO usar className aqui */}
+          <nav>
+            <Link to="/">Início</Link>
             <Link to="/sobre">Sobre</Link>
-            </nav>
-
-        
+          </nav>
         </div>
       </header>
 
+      {/* ROTAS */}
       <Routes>
-        <Route path="/sobre" element={<Sobre />} />
-
         <Route path="/" element={<Loja produtos={produtos} />} />
+        <Route path="/sobre" element={<Sobre />} />
         <Route
           path="/admin"
           element={<Admin produtos={produtos} setProdutos={setProdutos} />}
         />
       </Routes>
-       <Footer />
+
+      <Footer />
     </BrowserRouter>
   );
 }
