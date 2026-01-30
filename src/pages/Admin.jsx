@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../styles/Admin.css";
 
 const SENHA_ADMIN = "1234";
@@ -9,51 +9,61 @@ function Admin({ produtos, setProdutos }) {
 
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState("");
-  const [imagem, setImagem] = useState("");
+  const [imagem, setImagem] = useState(null); // FILE
   const [categoria, setCategoria] = useState("Masculino");
   const [editandoId, setEditandoId] = useState(null);
 
   const totalProdutos = produtos.length;
-    const categorias = produtos.reduce((acc, produto) => {
-  acc[produto.categoria] = (acc[produto.categoria] || 0) + 1;
-  return acc;
-}, {});
 
-const precoMedio =
-  totalProdutos === 0
-    ? 0
-    : (
-        produtos.reduce((soma, p) => soma + Number(p.preco), 0) /
-        totalProdutos
-      ).toFixed(2);
+  const categorias = produtos.reduce((acc, produto) => {
+    acc[produto.categoria] = (acc[produto.categoria] || 0) + 1;
+    return acc;
+  }, {});
 
+  const precoMedio =
+    totalProdutos === 0
+      ? 0
+      : (
+          produtos.reduce((soma, p) => soma + Number(p.preco), 0) /
+          totalProdutos
+        ).toFixed(2);
 
   function limparFormulario() {
     setNome("");
     setPreco("");
-    setImagem("");
+    setImagem(null);
     setCategoria("Masculino");
     setEditandoId(null);
   }
 
-  function salvarProduto(e) {
+  async function salvarProduto(e) {
     e.preventDefault();
 
+    if (!imagem && !editandoId) {
+      alert("Selecione uma imagem");
+      return;
+    }
+
+    let imageUrl = imagem;
+
+    // Se for um arquivo novo, faz upload
+    if (imagem instanceof File) {
+      imageUrl = await uploadImagem(imagem);
+    }
+
     if (editandoId) {
-      // EDITAR
       const produtosAtualizados = produtos.map((p) =>
         p.id === editandoId
-          ? { ...p, nome, preco, imagem, categoria }
+          ? { ...p, nome, preco, imagem: imageUrl, categoria }
           : p
       );
       setProdutos(produtosAtualizados);
     } else {
-      // CADASTRAR
       const novoProduto = {
         id: Date.now(),
         nome,
         preco,
-        imagem,
+        imagem: imageUrl,
         categoria,
       };
       setProdutos([...produtos, novoProduto]);
@@ -65,7 +75,7 @@ const precoMedio =
   function editarProduto(produto) {
     setNome(produto.nome);
     setPreco(produto.preco);
-    setImagem(produto.imagem);
+    setImagem(produto.imagem); // URL
     setCategoria(produto.categoria);
     setEditandoId(produto.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,7 +86,7 @@ const precoMedio =
     setProdutos(produtos.filter((p) => p.id !== id));
   }
 
-if (!logado) {
+  if (!logado) {
     return (
       <div className="admin-login">
         <h2>Área Administrativa</h2>
@@ -108,23 +118,23 @@ if (!logado) {
       <h2>Painel Administrativo</h2>
 
       <div className="admin-dashboard">
-  <div className="dash-card">
-    <span>Total de Produtos</span>
-    <strong>{totalProdutos}</strong>
-  </div>
+        <div className="dash-card">
+          <span>Total de Produtos</span>
+          <strong>{totalProdutos}</strong>
+        </div>
 
-  <div className="dash-card">
-    <span>Preço Médio</span>
-    <strong>R$ {precoMedio}</strong>
-  </div>
+        <div className="dash-card">
+          <span>Preço Médio</span>
+          <strong>R$ {precoMedio}</strong>
+        </div>
 
-  {Object.keys(categorias).map((cat) => (
-    <div className="dash-card" key={cat}>
-      <span>{cat}</span>
-      <strong>{categorias[cat]}</strong>
-    </div>
-  ))}
-</div>
+        {Object.keys(categorias).map((cat) => (
+          <div className="dash-card" key={cat}>
+            <span>{cat}</span>
+            <strong>{categorias[cat]}</strong>
+          </div>
+        ))}
+      </div>
 
       <form className="admin-form" onSubmit={salvarProduto}>
         <input
@@ -142,17 +152,10 @@ if (!logado) {
         />
 
         <input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setImagem(imageURL);
-    }
-  }}
-  required
-/>
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImagem(e.target.files[0])}
+        />
 
         <select
           value={categoria}
@@ -194,14 +197,30 @@ if (!logado) {
               <button onClick={() => editarProduto(produto)}>✏️</button>
               <button onClick={() => excluirProduto(produto.id)}>🗑</button>
             </div>
-            
-            </div>
-           
-       
- ))}
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
+/* 🔥 UPLOAD CLOUDINARY */
+async function uploadImagem(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "nextstep_upload");
+
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/nextstep/image/upload",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  const data = await response.json();
+  return data.secure_url;
+}
+
 export default Admin;
+ 
